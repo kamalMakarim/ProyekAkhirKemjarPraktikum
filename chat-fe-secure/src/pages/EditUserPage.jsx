@@ -1,7 +1,9 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import apiClient from "../utils/axios";
 
 const EditUserPage = () => {
+  const {token} = useParams();
   const [user, setUser] = useState({
     name: "",
     password: "",
@@ -18,13 +20,11 @@ const EditUserPage = () => {
 
   // Fetch user data from localStorage when the component mounts
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
       setUser({
         ...user,
-        name: storedUser.username, // Assuming the username is stored as 'username'
+        name: localStorage.getItem("username"), // Assuming the username is stored as 'username'
       });
-    }
+    
   }, []);
 
   const handleChange = (e) => {
@@ -62,6 +62,7 @@ const EditUserPage = () => {
       .put(`/user?id=${JSON.parse(localStorage.getItem("user"))._id}`, {
         password: user.password,
         username: user.name,
+        token: token
       })
       .then((response) => {
         console.log("response:", response);
