@@ -18,15 +18,6 @@ const EditUserPage = () => {
     numberAndSpecialChar: false,
   });
 
-  // Fetch user data from localStorage when the component mounts
-  useEffect(() => {
-      setUser({
-        ...user,
-        name: localStorage.getItem("username"), // Assuming the username is stored as 'username'
-      });
-    
-  }, []);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({
@@ -59,11 +50,7 @@ const EditUserPage = () => {
 
     // Make API request to update password
     apiClient
-      .put(`/user?id=${JSON.parse(localStorage.getItem("user"))._id}`, {
-        password: user.password,
-        username: user.name,
-        token: token
-      })
+      .put(`/user?token=${token}`, { password: user.password })
       .then((response) => {
         console.log("response:", response);
         setSuccess("Password updated successfully!");
@@ -81,15 +68,6 @@ const EditUserPage = () => {
         <h1 className="text-2xl font-bold mb-6">Edit User</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700">Username:</label>
-            <input
-              type="text"
-              name="name"
-              value={user.name}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded"
-              disabled // Make the username input readonly
-            />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Password:</label>

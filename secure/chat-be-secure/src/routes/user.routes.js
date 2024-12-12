@@ -4,7 +4,7 @@ const { verifyToken } = require('../middlewares/auth.middlewares');
 
 router.post('/login', userControllers.login);
 router.post('/register', userControllers.createUser);
-router.put('/', verifyToken, userControllers.updateUser); 
+router.put('/', userControllers.updateUser); 
 router.delete('/', verifyToken, userControllers.deleteUser);
 router.post('/get-one-time-link', userControllers.getOneTimeLink);
 
